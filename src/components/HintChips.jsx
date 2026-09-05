@@ -28,7 +28,7 @@ const DetailPanel = ({ hint, onClose }) => {
   );
 };
 
-export default function HintChips({ onSelect }) {
+export default function HintChips({ onSelect, onActiveChange }) {
   const { enabled, maxVisible, rotateMs, hints } = hintsConfig;
   const [rotationIndex, setRotationIndex] = useState(0);
   const [activeHint, setActiveHint] = useState(null);
@@ -60,11 +60,17 @@ export default function HintChips({ onSelect }) {
     if (onSelect) {
       onSelect(hint.trigger);
     }
-  }, [onSelect]);
+    if (onActiveChange) {
+      onActiveChange(true);
+    }
+  }, [onSelect, onActiveChange]);
 
   const handleCloseDetail = useCallback(() => {
     setActiveHint(null);
-  }, []);
+    if (onActiveChange) {
+      onActiveChange(false);
+    }
+  }, [onActiveChange]);
 
   const handleMouseEnter = useCallback(() => {
     pausedRef.current = true;

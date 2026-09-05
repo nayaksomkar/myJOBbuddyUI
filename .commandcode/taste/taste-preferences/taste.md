@@ -1,0 +1,14 @@
+# Taste Preferences
+- Prefers fully config-driven architecture: no hardcoded values (URLs, strings, service names, timing) in components. A central config file should be the single source of truth and the only place a non-dev needs to edit. Confidence: 0.95
+- Prefers build-time configuration baked in at build time — no runtime fetching, no secrets, no env vars for feature config. Confidence: 0.9
+- Values not breaking existing features when adding new ones. Confidence: 0.85
+- Prefers TypeScript strict mode with no `any`. Confidence: 0.95
+- Prefers functional components. Confidence: 0.85
+- Prefers no new dependencies — works within the existing dependency set. Confidence: 0.9
+- Prefers automatic deployment via GitHub Actions on push to main. Confidence: 0.8
+- When a written spec doesn't match the actual codebase, prefers matching existing codebase conventions over rigidly following the spec (pragmatic consistency). Confidence: 0.7
+- Read the existing codebase thoroughly before making any changes — never invent services, rename real ones, or add features based on assumptions. Ground all work in what actually exists. Confidence: 0.95
+- Strongly prefers simplicity and practicality over feature richness — "be practical dude." Avoid over-engineering, unnecessary views, or solutions that add complexity without clear value. Confidence: 0.9
+- Prefer integrating features into existing views/flows rather than creating new separate windows or tabs. New functionality should feel native to the current UX, not bolted on. Confidence: 0.85
+- Match all content, hints, and features to the app's actual domain and purpose — don't inject generic or off-topic material. If it's an interview prep tool, every hint should be about interview prep. Confidence: 0.9
+- Prefers direct, no-nonsense communication — no over-explaining or excessive apologizing when correcting course. Acknowledge the mistake, fix it, move on. Confidence: 0.8
