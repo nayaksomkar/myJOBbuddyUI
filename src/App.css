@@ -1,6 +1,7 @@
 .app {
   display: flex;
   height: 100vh;
+  height: 100dvh;
   width: 100%;
   overflow: hidden;
 }
@@ -212,6 +213,14 @@
   transition: background 0.2s, border-color 0.2s;
 }
 
+.chat-header > div:first-child {
+  min-width: 0;
+}
+
+.chat-header > div:first-child > div:last-child {
+  min-width: 0;
+}
+
 .chat-header-title {
   font-size: 15px;
   font-weight: 600;
@@ -224,6 +233,9 @@
   color: var(--text-secondary);
   margin-top: 2px;
   transition: color 0.2s;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .new-chat-header-btn {
@@ -526,10 +538,29 @@
 
   .chat-header {
     padding: 14px 16px;
+    gap: 12px;
+  }
+
+  .chat-header-title {
+    font-size: 14px;
+  }
+
+  .chat-header-resume {
+    max-width: min(52vw, 280px);
+  }
+
+  .new-chat-header-btn {
+    padding: 7px 10px;
+    flex-shrink: 0;
+  }
+
+  .new-chat-header-btn svg {
+    flex-shrink: 0;
   }
 
   .messages {
     padding: 16px;
+    gap: 14px;
   }
 
   .input-area {
@@ -538,6 +569,86 @@
 
   .message-content {
     max-width: 90%;
+    padding: 10px 13px;
+    font-size: 13.5px;
+  }
+}
+
+@media (max-width: 480px) {
+  .sidebar {
+    width: min(280px, calc(100vw - 32px));
+    left: calc(-1 * min(280px, calc(100vw - 32px)) - 10px);
+  }
+
+  .chat-header {
+    padding: 10px 12px;
+  }
+
+  .chat-header > div:first-child {
+    gap: 8px !important;
+  }
+
+  .chat-header-resume {
+    max-width: 44vw;
+    font-size: 11px;
+  }
+
+  .new-chat-header-btn {
+    font-size: 0;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    justify-content: center;
+  }
+
+  .messages {
+    padding: 12px;
+  }
+
+  .message {
+    gap: 8px;
+  }
+
+  .message-avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    font-size: 10px;
+  }
+
+  .message-content {
+    max-width: calc(100% - 36px);
+  }
+
+  .input-area {
+    padding: 8px 10px 10px;
+  }
+
+  .input-wrapper {
+    padding: 7px 8px;
+    gap: 4px;
+  }
+
+  .input-wrapper .icon-btn {
+    width: 32px;
+    height: 32px;
+  }
+
+  .input-hint {
+    margin-top: 6px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+@media (min-width: 1440px) {
+  .messages,
+  .input-container {
+    max-width: 920px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
   }
 }
 
