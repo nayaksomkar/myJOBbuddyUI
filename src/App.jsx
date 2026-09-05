@@ -3,7 +3,7 @@ import resumeData from '../sample/resume.json'
 import chatLogs from '../sample/chatslogs.json'
 import './App.css'
 
-const API_URL = import.meta.env.VITE_API_URL
+const API_URL = import.meta.env.VITE_API_URL || 'https://myjobbuddyengine.onrender.com'
 const PARSE_API_PATH = '/parse'
 
 function transformResumeData(data) {
@@ -52,7 +52,7 @@ function transformResumeData(data) {
 
 const SAMPLE_RESUMES = transformResumeData(resumeData)
 
-const AI_API_URL = import.meta.env.VITE_AI_API_URL || ''
+const AI_API_URL = import.meta.env.VITE_AI_API_URL || 'https://llmping.onrender.com/chat'
 const AI_API_PATH = AI_API_URL ? new URL(AI_API_URL).pathname : '/chat'
 
 function App() {

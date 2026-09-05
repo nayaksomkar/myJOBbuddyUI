@@ -58,23 +58,24 @@ The frontend sends uploaded resumes as multipart form data to `{VITE_API_URL}/pa
 
 This UI uses [LLMPing](https://github.com/nayaksomkar/LLMPing) as its AI backend for generating interview-prep responses.
 
-Set `VITE_AI_API_URL` in `.env`:
+The production build uses LLMPing by default. To override it locally, set
+`VITE_AI_API_URL` in `.env`:
 
 ```
-VITE_AI_API_URL=https://your-llm-api.example/chat
+VITE_AI_API_URL=https://llmping.onrender.com/chat
 ```
 
-For GitHub Pages, add `VITE_API_URL` and `VITE_AI_API_URL` as repository
-secrets under **Settings > Secrets and variables > Actions**. The Pages
-workflow injects these values while building the production bundle. Do not
-put private API keys in Vite client variables: Vite embeds `VITE_*` values in
-the public JavaScript bundle.
+For GitHub Pages, no AI secret is required: the public LLMPing URL is the
+default. `VITE_API_URL` and `VITE_AI_API_URL` may be added as repository
+secrets under **Settings > Secrets and variables > Actions** to override the
+defaults during the build. Do not put private API keys in Vite client
+variables: Vite embeds `VITE_*` values in the public JavaScript bundle.
 
 ### Expected API contract
 
 Request:
 ```bash
-curl -X POST https://your-llm-api.example/chat \
+curl -X POST https://llmping.onrender.com/chat \
   -H "Content-Type: application/json" \
   -d '{"query":"your message here"}'
 ```
@@ -88,7 +89,8 @@ Response:
 }
 ```
 
-The UI sends the user message plus the selected resume text as context in a simple JSON body, reads `data.answer`, and displays it as the assistant reply. If `VITE_AI_API_URL` is not set, the app uses a local fallback response instead of calling the API.
+The UI sends the user message plus the selected resume text as context in a
+simple JSON body, reads `data.answer`, and displays it as the assistant reply.
 
 ## Adding This UI to an Existing Project
 
