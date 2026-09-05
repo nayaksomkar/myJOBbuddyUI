@@ -4,6 +4,7 @@
   height: 100dvh;
   width: 100%;
   overflow: hidden;
+  letter-spacing: -0.01em;
 }
 
 /* Sidebar */
@@ -42,7 +43,7 @@
 .brand-icon {
   width: 26px;
   height: 26px;
-  background: linear-gradient(135deg, var(--accent), var(--accent-hover));
+  background: var(--accent);
   border-radius: 7px;
   display: flex;
   align-items: center;
@@ -50,7 +51,7 @@
   color: white;
   font-size: 11px;
   font-weight: 700;
-  box-shadow: 0 3px 10px rgba(124, 92, 252, 0.25);
+  box-shadow: none;
   flex-shrink: 0;
 }
 
@@ -65,7 +66,7 @@
   background: var(--accent);
   color: white;
   border: none;
-  border-radius: var(--radius-sm);
+  border-radius: 999px;
   font-size: 12px;
   font-weight: 500;
   cursor: pointer;
@@ -93,7 +94,7 @@
   height: 36px;
   border-radius: var(--radius-sm);
   border: 1px solid var(--border-color);
-  background: var(--bg-primary);
+  background: transparent;
   color: var(--text-secondary);
   cursor: pointer;
   display: flex;
@@ -174,8 +175,8 @@
   padding: 10px 16px;
   background: transparent;
   color: var(--text-secondary);
-  border: 1.5px dashed var(--border-color);
-  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-color);
+  border-radius: 999px;
   font-size: 13.5px;
   font-weight: 500;
   cursor: pointer;
@@ -434,7 +435,7 @@
   height: 34px;
   border-radius: 10px;
   border: none;
-  background: linear-gradient(135deg, var(--accent), var(--accent-hover));
+  background: var(--accent);
   color: white;
   cursor: pointer;
   display: flex;
@@ -442,7 +443,7 @@
   justify-content: center;
   transition: background 0.15s, transform 0.1s, opacity 0.15s;
   flex-shrink: 0;
-  box-shadow: 0 4px 12px rgba(124, 92, 252, 0.25);
+  box-shadow: none;
 }
 
 .send-btn:hover:not(:disabled) {

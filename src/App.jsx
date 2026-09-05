@@ -3,8 +3,7 @@ import resumeData from '../sample/resume.json'
 import chatLogs from '../sample/chatslogs.json'
 import './App.css'
 
-const API_URL = 'https://myjobbuddyengine.onrender.com'
-const PARSE_API_PATH = '/parse'
+const PARSE_API_URL = 'https://myjobbuddyengine.onrender.com/parse'
 
 function transformResumeData(data) {
   return data.map(item => {
@@ -252,9 +251,7 @@ Guidelines:
     formData.append('file', file)
 
     try {
-      const isDev = import.meta.env.DEV
-      const requestUrl = isDev ? PARSE_API_PATH : `${API_URL}/parse`
-      const response = await fetch(requestUrl, {
+      const response = await fetch(PARSE_API_URL, {
         method: 'POST',
         body: formData
       })
