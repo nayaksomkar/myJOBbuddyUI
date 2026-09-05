@@ -6,10 +6,6 @@ import './App.css'
 const API_URL = import.meta.env.VITE_API_URL
 const PARSE_API_PATH = '/parse'
 
-if (!API_URL) {
-  throw new Error('VITE_API_URL is not defined. Create a .env file with your backend API URL.')
-}
-
 function transformResumeData(data) {
   return data.map(item => {
     const content = item.resume_content
