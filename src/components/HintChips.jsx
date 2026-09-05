@@ -24,20 +24,14 @@ const DetailPanel = ({ hint, onClose }) => {
           <p key={i}>{paragraph}</p>
         ))}
       </div>
-      {hint.relatedIds && hint.relatedIds.length > 0 && (
-        <div className="hint-detail-related">
-          Related insights: {hint.relatedIds.length} available
-        </div>
-      )}
     </div>
   );
 };
 
-export default function HintChips({ onInsight }) {
+export default function HintChips({ onSelect }) {
   const { enabled, maxVisible, rotateMs, hints } = hintsConfig;
   const [rotationIndex, setRotationIndex] = useState(0);
   const [activeHint, setActiveHint] = useState(null);
-  const [isPaused, setIsPaused] = useState(false);
   const pausedRef = useRef(false);
 
   const getVisibleHints = useCallback(() => {
@@ -63,10 +57,10 @@ export default function HintChips({ onInsight }) {
 
   const handleChipClick = useCallback((hint) => {
     setActiveHint(hint);
-    if (onInsight) {
-      onInsight(hint.preview);
+    if (onSelect) {
+      onSelect(hint.trigger);
     }
-  }, [onInsight]);
+  }, [onSelect]);
 
   const handleCloseDetail = useCallback(() => {
     setActiveHint(null);
@@ -74,12 +68,10 @@ export default function HintChips({ onInsight }) {
 
   const handleMouseEnter = useCallback(() => {
     pausedRef.current = true;
-    setIsPaused(true);
   }, []);
 
   const handleMouseLeave = useCallback(() => {
     pausedRef.current = false;
-    setIsPaused(false);
   }, []);
 
   if (!enabled || hints.length === 0) {
@@ -103,9 +95,6 @@ export default function HintChips({ onInsight }) {
             onClick={handleChipClick}
           />
         ))}
-        {rotateMs > 0 && (
-          <span className={`hint-rotation-indicator ${isPaused ? 'paused' : ''}`} />
-        )}
       </div>
       <DetailPanel hint={activeHint} onClose={handleCloseDetail} />
     </div>

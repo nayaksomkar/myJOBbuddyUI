@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import resumeData from '../sample/resume.json'
 import chatLogs from '../sample/chatslogs.json'
-import Dashboard from './components/Dashboard.jsx'
+import HintChips from './components/HintChips.jsx'
 import ServerStatus from './components/ServerStatus.jsx'
 import { statusStripConfig } from './config/index.js'
 import './App.css'
@@ -68,7 +68,6 @@ function App() {
   const [uploading, setUploading] = useState(false)
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const [activeView, setActiveView] = useState('chat')
   const messagesEndRef = useRef(null)
   const fileInputRef = useRef(null)
   const textareaRef = useRef(null)
@@ -339,20 +338,6 @@ Guidelines:
             <div className="brand-icon">JB</div>
             myJOBbuddy
           </div>
-          <div className="view-toggle">
-            <button
-              className={`view-toggle-btn ${activeView === 'chat' ? 'active' : ''}`}
-              onClick={() => setActiveView('chat')}
-            >
-              Chat
-            </button>
-            <button
-              className={`view-toggle-btn ${activeView === 'analysis' ? 'active' : ''}`}
-              onClick={() => setActiveView('analysis')}
-            >
-              Analysis
-            </button>
-          </div>
           <div className="sidebar-actions-row">
             <button className="icon-btn" onClick={toggleTheme} title={`Switch to ${theme === 'light' ? 'dark' : 'light'} theme`}>
               {theme === 'light' ? (
@@ -431,169 +416,141 @@ Guidelines:
       </aside>
 
       <main className="main">
-        {activeView === 'chat' ? (
-          <>
-            <div className="chat-header">
-              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                <button
-                  className="mobile-menu-btn icon-btn"
-                  onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                >
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <line x1="3" y1="12" x2="21" y2="12" />
-                    <line x1="3" y1="6" x2="21" y2="6" />
-                    <line x1="3" y1="18" x2="21" y2="18" />
-                  </svg>
-                </button>
-                <div>
-                  <div className="chat-header-title">Interview Prep Chat</div>
-                  <div className="chat-header-resume">
-                    {activeResume ? `Preparing: ${activeResume.name}` : 'Select a resume to begin'}
-                  </div>
-                </div>
+        <div className="chat-header">
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <button
+              className="mobile-menu-btn icon-btn"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="3" y1="12" x2="21" y2="12" />
+                <line x1="3" y1="6" x2="21" y2="6" />
+                <line x1="3" y1="18" x2="21" y2="18" />
+              </svg>
+            </button>
+            <div>
+              <div className="chat-header-title">Interview Prep Chat</div>
+              <div className="chat-header-resume">
+                {activeResume ? `Preparing: ${activeResume.name}` : 'Select a resume to begin'}
               </div>
-              <button className="new-chat-header-btn" onClick={handleNewChat}>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <line x1="12" y1="5" x2="12" y2="19" />
-                  <line x1="5" y1="12" x2="19" y2="12" />
-                </svg>
-                New Chat
-              </button>
             </div>
+          </div>
+          <button className="new-chat-header-btn" onClick={handleNewChat}>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="12" y1="5" x2="12" y2="19" />
+              <line x1="5" y1="12" x2="19" y2="12" />
+            </svg>
+            New Chat
+          </button>
+        </div>
 
-            {statusStripConfig.position === 'topbar' && <ServerStatus />}
+        {statusStripConfig.position === 'topbar' && <ServerStatus />}
 
-            {currentMessages.length === 0 ? (
-              <div className="empty-state">
-                <div className="empty-state-icon">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-                  </svg>
+        {currentMessages.length === 0 ? (
+          <div className="empty-state">
+            <div className="empty-state-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+              </svg>
+            </div>
+            <div className="empty-state-title">Start your interview prep</div>
+            <div className="empty-state-text">
+              Ask questions about the selected resume. I'll help you prepare for interviews with questions, do's and don'ts, and targeted advice.
+            </div>
+            <div className="empty-state-hints">
+              <HintChips onSelect={(text) => setInput(text)} />
+            </div>
+          </div>
+        ) : (
+          <div className="messages">
+            {currentMessages.map(msg => (
+              <div key={msg.id} className={`message ${msg.role}`}>
+                <div className="message-avatar">
+                  {msg.role === 'user' ? 'U' : 'AI'}
                 </div>
-                <div className="empty-state-title">Start your interview prep</div>
-                <div className="empty-state-text">
-                  Ask questions about the selected resume. I'll help you prepare for interviews with questions, do's and don'ts, and targeted advice.
+                <div className="message-content">
+                  {msg.content.split('\n').map((line, i) => (
+                    <p key={i}>{line}</p>
+                  ))}
                 </div>
               </div>
-            ) : (
-              <div className="messages">
-                {currentMessages.map(msg => (
-                  <div key={msg.id} className={`message ${msg.role}`}>
-                    <div className="message-avatar">
-                      {msg.role === 'user' ? 'U' : 'AI'}
-                    </div>
-                    <div className="message-content">
-                      {msg.content.split('\n').map((line, i) => (
-                        <p key={i}>{line}</p>
-                      ))}
-                    </div>
+            ))}
+            {loading && (
+              <div className="message ai">
+                <div className="message-avatar">AI</div>
+                <div className="message-content">
+                  <div className="typing-indicator">
+                    <div className="typing-dot" />
+                    <div className="typing-dot" />
+                    <div className="typing-dot" />
                   </div>
-                ))}
-                {loading && (
-                  <div className="message ai">
-                    <div className="message-avatar">AI</div>
-                    <div className="message-content">
-                      <div className="typing-indicator">
-                        <div className="typing-dot" />
-                        <div className="typing-dot" />
-                        <div className="typing-dot" />
-                      </div>
-                    </div>
-                  </div>
-                )}
-                <div ref={messagesEndRef} />
+                </div>
               </div>
             )}
+            <div ref={messagesEndRef} />
+          </div>
+        )}
 
-            <div className="input-area">
-              <div className="input-container">
-                <div className="input-wrapper">
-                  <div className="input-actions-left">
-                    <button
-                      className="icon-btn"
-                      onClick={() => fileInputRef.current?.click()}
-                      title="Upload resume"
-                    >
-                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48" />
-                      </svg>
-                    </button>
-                  </div>
-
-                  <textarea
-                    ref={textareaRef}
-                    className="chat-input"
-                    placeholder="Ask about interview prep..."
-                    value={input}
-                    onChange={(e) => setInput(e.target.value)}
-                    onKeyDown={handleKeyDown}
-                    rows={1}
-                    disabled={uploading}
-                  />
-
-                  <div className="input-actions-right">
-                    <button
-                      className="icon-btn"
-                      onClick={handleVoiceInput}
-                      title="Voice input"
-                    >
-                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" />
-                        <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
-                        <line x1="12" y1="19" x2="12" y2="23" />
-                        <line x1="8" y1="23" x2="16" y2="23" />
-                      </svg>
-                    </button>
-                    <button
-                      className="send-btn"
-                      onClick={handleSendMessage}
-                      disabled={!input.trim() || loading || uploading}
-                      title="Send message"
-                    >
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <line x1="22" y1="2" x2="11" y2="13" />
-                        <polygon points="22 2 15 22 11 13 2 9 22 2" />
-                      </svg>
-                    </button>
-                  </div>
-                </div>
-                <div className="input-hint">
-                  {activeResume ? `Preparing interview for: ${activeResume.name}` : 'Upload or select a resume to start chatting'}
-                </div>
-                <div className="service-notice">
-                  Runs on free Render hosting and a free AI API, so responses may take a little longer.
-                </div>
-              </div>
-            </div>
-          </>
-        ) : (
-          <>
-            <div className="chat-header">
-              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+        <div className="input-area">
+          <div className="input-container">
+            <div className="input-wrapper">
+              <div className="input-actions-left">
                 <button
-                  className="mobile-menu-btn icon-btn"
-                  onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                  className="icon-btn"
+                  onClick={() => fileInputRef.current?.click()}
+                  title="Upload resume"
                 >
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <line x1="3" y1="12" x2="21" y2="12" />
-                    <line x1="3" y1="6" x2="21" y2="6" />
-                    <line x1="3" y1="18" x2="21" y2="18" />
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48" />
                   </svg>
                 </button>
-                <div>
-                  <div className="chat-header-title">Competitor Analysis</div>
-                  <div className="chat-header-resume">
-                    {activeResume ? `Analyzing: ${activeResume.name}` : 'Select a resume to begin analysis'}
-                  </div>
-                </div>
+              </div>
+
+              <textarea
+                ref={textareaRef}
+                className="chat-input"
+                placeholder="Ask about interview prep..."
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                onKeyDown={handleKeyDown}
+                rows={1}
+                disabled={uploading}
+              />
+
+              <div className="input-actions-right">
+                <button
+                  className="icon-btn"
+                  onClick={handleVoiceInput}
+                  title="Voice input"
+                >
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" />
+                    <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
+                    <line x1="12" y1="19" x2="12" y2="23" />
+                    <line x1="8" y1="23" x2="16" y2="23" />
+                  </svg>
+                </button>
+                <button
+                  className="send-btn"
+                  onClick={handleSendMessage}
+                  disabled={!input.trim() || loading || uploading}
+                  title="Send message"
+                >
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="22" y1="2" x2="11" y2="13" />
+                    <polygon points="22 2 15 22 11 13 2 9 22 2" />
+                  </svg>
+                </button>
               </div>
             </div>
-
-            {statusStripConfig.position === 'topbar' && <ServerStatus />}
-
-            <Dashboard activeResume={activeResume} />
-          </>
-        )}
+            <div className="input-hint">
+              {activeResume ? `Preparing interview for: ${activeResume.name}` : 'Upload or select a resume to start chatting'}
+            </div>
+            <div className="service-notice">
+              Runs on free Render hosting and a free AI API, so responses may take a little longer.
+            </div>
+          </div>
+        </div>
       </main>
     </div>
   )
