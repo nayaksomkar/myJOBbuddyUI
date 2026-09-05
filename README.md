@@ -65,10 +65,8 @@ The production build uses LLMPing by default. To override it locally, set
 VITE_AI_API_URL=https://llmping.onrender.com/chat
 ```
 
-For GitHub Pages, no AI secret is required: the public LLMPing URL is the
-default. `VITE_API_URL` and `VITE_AI_API_URL` may be added as repository
-secrets under **Settings > Secrets and variables > Actions** to override the
-defaults during the build. Do not put private API keys in Vite client
+For GitHub Pages, no AI secret is required: the public LLMPing URL is compiled
+into the production frontend. Do not put private API keys in Vite client
 variables: Vite embeds `VITE_*` values in the public JavaScript bundle.
 
 ### Expected API contract
