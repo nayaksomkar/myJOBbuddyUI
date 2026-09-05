@@ -885,11 +885,9 @@
   opacity: 0.8;
 }
 
-/* ===== Empty State Hints ===== */
-.empty-state-hints {
-  margin-top: 24px;
-  width: 100%;
-  max-width: 520px;
+/* ===== Input Hints Bar ===== */
+.input-hints-bar {
+  margin-bottom: 12px;
 }
 
 /* ===== Server Status Strip ===== */
