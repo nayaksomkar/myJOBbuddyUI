@@ -64,6 +64,12 @@ Set `VITE_AI_API_URL` in `.env`:
 VITE_AI_API_URL=https://your-llm-api.example/chat
 ```
 
+For GitHub Pages, add `VITE_API_URL` and `VITE_AI_API_URL` as repository
+secrets under **Settings > Secrets and variables > Actions**. The Pages
+workflow injects these values while building the production bundle. Do not
+put private API keys in Vite client variables: Vite embeds `VITE_*` values in
+the public JavaScript bundle.
+
 ### Expected API contract
 
 Request:

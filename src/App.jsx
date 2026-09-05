@@ -53,7 +53,6 @@ function transformResumeData(data) {
 const SAMPLE_RESUMES = transformResumeData(resumeData)
 
 const AI_API_URL = import.meta.env.VITE_AI_API_URL || ''
-const AI_API_KEY = import.meta.env.VITE_AI_API_KEY || ''
 const AI_API_PATH = AI_API_URL ? new URL(AI_API_URL).pathname : '/chat'
 
 function App() {
@@ -137,7 +136,6 @@ Guidelines:
     const headers = {
       'Content-Type': 'application/json'
     }
-
     const isDev = import.meta.env.DEV
     const requestUrl = isDev ? AI_API_PATH : AI_API_URL
 
