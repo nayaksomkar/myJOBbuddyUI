@@ -536,6 +536,9 @@ Guidelines:
             <div className="input-hint">
               {activeResume ? `Preparing interview for: ${activeResume.name}` : 'Upload or select a resume to start chatting'}
             </div>
+            <div className="service-notice">
+              Runs on free Render hosting and a free AI API, so responses may take a little longer.
+            </div>
           </div>
         </div>
       </main>
