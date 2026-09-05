@@ -31,40 +31,40 @@ body {
 
 [data-theme="light"] {
   --bg-primary: #ffffff;
-  --bg-secondary: #fafafa;
-  --bg-sidebar: #f7f7f8;
-  --border-color: #e5e5e7;
-  --text-primary: #161618;
-  --text-secondary: #5f6068;
-  --text-muted: #92939b;
-  --accent: #5b21b6;
-  --accent-hover: #4c1d95;
-  --accent-soft: rgba(91, 33, 182, 0.1);
-  --user-bubble: #f1f0f4;
+  --bg-secondary: #f5f5f7;
+  --bg-sidebar: rgba(245, 245, 247, 0.8);
+  --border-color: rgba(0, 0, 0, 0.06);
+  --text-primary: #1d1d1f;
+  --text-secondary: #6e6e73;
+  --text-muted: #86868b;
+  --accent: #7c5cbf;
+  --accent-hover: #6a4faa;
+  --accent-soft: rgba(124, 92, 191, 0.08);
+  --user-bubble: #f0f0f2;
   --ai-bubble: #ffffff;
-  --shadow: 0 1px 2px rgba(16, 18, 30, 0.04);
-  --shadow-lg: 0 12px 24px rgba(16, 18, 30, 0.08);
-  --input-bg: #ffffff;
+  --shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.03);
+  --shadow-lg: 0 4px 16px rgba(0, 0, 0, 0.06), 0 2px 6px rgba(0, 0, 0, 0.04);
+  --input-bg: #f5f5f7;
   --resume-badge-bg: #f1f3f9;
   --resume-badge-border: #e8eaf0;
 }
 
 [data-theme="dark"] {
-  --bg-primary: #111112;
-  --bg-secondary: #18181a;
-  --bg-sidebar: #151516;
-  --border-color: #2d2d31;
+  --bg-primary: #1c1c1e;
+  --bg-secondary: #2c2c2e;
+  --bg-sidebar: rgba(28, 28, 30, 0.8);
+  --border-color: rgba(255, 255, 255, 0.08);
   --text-primary: #f5f5f7;
-  --text-secondary: #b6b6bd;
-  --text-muted: #77777f;
-  --accent: #a78bfa;
-  --accent-hover: #c4b5fd;
-  --accent-soft: rgba(167, 139, 250, 0.16);
-  --user-bubble: #222225;
-  --ai-bubble: #171718;
-  --shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
-  --shadow-lg: 0 12px 24px rgba(0, 0, 0, 0.45);
-  --input-bg: #131628;
-  --resume-badge-bg: #1c2038;
-  --resume-badge-border: #2a2f4a;
+  --text-secondary: #a1a1a6;
+  --text-muted: #636366;
+  --accent: #b8a4e0;
+  --accent-hover: #c9b8eb;
+  --accent-soft: rgba(184, 164, 224, 0.14);
+  --user-bubble: #2c2c2e;
+  --ai-bubble: #252527;
+  --shadow: 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
+  --shadow-lg: 0 4px 16px rgba(0, 0, 0, 0.35), 0 2px 6px rgba(0, 0, 0, 0.25);
+  --input-bg: #2c2c2e;
+  --resume-badge-bg: #2c2c30;
+  --resume-badge-border: #3a3a3c;
 }
