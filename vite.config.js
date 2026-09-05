@@ -14,7 +14,7 @@ export default defineConfig(({ mode }) => {
           changeOrigin: true,
         },
         '/parse': {
-          target: env.VITE_API_URL,
+          target: env.VITE_API_URL || 'https://myjobbuddyengine.onrender.com',
           changeOrigin: true,
         },
       },

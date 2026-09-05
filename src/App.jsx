@@ -4,6 +4,7 @@ import chatLogs from '../sample/chatslogs.json'
 import './App.css'
 
 const PARSE_API_URL = 'https://myjobbuddyengine.onrender.com/parse'
+const PARSE_API_PATH = '/parse'
 
 function transformResumeData(data) {
   return data.map(item => {
@@ -251,7 +252,8 @@ Guidelines:
     formData.append('file', file)
 
     try {
-      const response = await fetch(PARSE_API_URL, {
+      const requestUrl = import.meta.env.DEV ? PARSE_API_PATH : PARSE_API_URL
+      const response = await fetch(requestUrl, {
         method: 'POST',
         body: formData
       })
