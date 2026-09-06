@@ -11,12 +11,11 @@ const fetchHealth = async (url) => {
   try {
     const response = await fetch(url, {
       method: 'GET',
-      signal: controller.signal,
-      mode: 'no-cors'
+      signal: controller.signal
     });
     const latency = Date.now() - start;
     clearTimeout(timeout);
-    return { status: response.type === 'opaque' || response.ok ? 'up' : 'down', latency };
+    return { status: response.ok ? 'up' : 'down', latency };
   } catch (error) {
     clearTimeout(timeout);
     const latency = Date.now() - start;
