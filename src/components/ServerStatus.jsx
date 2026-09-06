@@ -60,12 +60,20 @@ function ServiceRow({ service, showLatency, pollMs }) {
     };
   }, [service.id, service.healthUrl, pollMs]);
 
+  const statusLabel = {
+    up: 'Online',
+    down: 'Offline',
+    timeout: 'Offline',
+    checking: 'Checking...'
+  }[health.status];
+
   return (
     <div className="status-service">
       <div className="status-service-header">
         <StatusDot status={health.status} />
         <span className="status-service-name">{service.name}</span>
-        {showLatency && health.latency !== null && (
+        <span className={`status-label status-label-${health.status}`}>{statusLabel}</span>
+        {showLatency && health.status === 'up' && health.latency !== null && (
           <span className="status-service-latency">{health.latency}ms</span>
         )}
       </div>
