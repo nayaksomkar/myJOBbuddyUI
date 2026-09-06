@@ -446,7 +446,6 @@ Guidelines:
         </div>
 
         {statusStripConfig.position === 'topbar' && <ServerStatus />}
-        <ServerStatus mobile />
 
         {currentMessages.length === 0 ? (
           <div className="empty-state">

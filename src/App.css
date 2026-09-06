@@ -516,10 +516,6 @@
 
 /* Responsive */
 @media (max-width: 768px) {
-  .sidebar .server-status-strip:not(.mobile) {
-    display: none;
-  }
-
   .sidebar {
     position: fixed;
     left: -290px;
@@ -1009,73 +1005,6 @@
   margin-top: 4px;
   padding-left: 16px;
   line-height: 1.4;
-}
-
-/* ===== Mobile status strip variant ===== */
-.server-status-strip.mobile {
-  display: none;
-}
-
-@media (max-width: 768px) {
-  .server-status-strip.mobile {
-    display: block;
-    border-bottom: 1px solid var(--border-color);
-    background: var(--bg-secondary);
-    padding: 8px 12px;
-  }
-
-  .server-status-strip.mobile .server-status-title {
-    display: none;
-  }
-
-  .server-status-strip.mobile .server-status-services {
-    flex-direction: row;
-    gap: 8px;
-  }
-
-  .server-status-strip.mobile .status-service {
-    flex: 1;
-    padding: 6px 8px;
-    min-width: 0;
-  }
-
-  .server-status-strip.mobile .status-service-header {
-    gap: 6px;
-  }
-
-  .server-status-strip.mobile .status-service-name {
-    font-size: 11px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  .server-status-strip.mobile .status-label {
-    font-size: 9px;
-    padding: 1px 4px;
-  }
-
-  .server-status-strip.mobile .status-service-desc {
-    display: none;
-  }
-
-  .server-status-strip.mobile .status-service-latency {
-    display: none;
-  }
-}
-
-@media (max-width: 480px) {
-  .server-status-strip.mobile {
-    padding: 6px 8px;
-  }
-
-  .server-status-strip.mobile .status-service {
-    padding: 4px 6px;
-  }
-
-  .server-status-strip.mobile .status-service-name {
-    font-size: 10px;
-  }
 }
 
 /* ===== Topbar status strip variant ===== */
