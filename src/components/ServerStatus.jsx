@@ -82,7 +82,7 @@ function ServiceRow({ service, showLatency, pollMs }) {
   );
 }
 
-export default function ServerStatus() {
+export default function ServerStatus({ mobile = false }) {
   const { enabled, showLatency, pollMs, services } = statusStripConfig;
 
   if (!enabled) {
@@ -90,7 +90,7 @@ export default function ServerStatus() {
   }
 
   return (
-    <div className="server-status-strip">
+    <div className={`server-status-strip${mobile ? ' mobile' : ''}`}>
       <div className="server-status-title">Service Status</div>
       <div className="server-status-services">
         {services.map((service) => (
