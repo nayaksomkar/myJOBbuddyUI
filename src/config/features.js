@@ -13,6 +13,8 @@
  * @property {string} name - Display name
  * @property {string} description - What the service does
  * @property {string} healthUrl - URL to ping for health checks
+ * @property {string} apiUrl - Production URL used for API calls
+ * @property {string} apiPath - Dev proxy path used in development
  */
 
 /**
@@ -140,13 +142,17 @@ export const statusStripConfig = {
       id: 'resume-engine',
       name: 'Resume Engine',
       description: 'Parses and extracts resume content',
-      healthUrl: 'https://myjobbuddyengine.onrender.com/health'
+      healthUrl: 'https://myjobbuddyengine.onrender.com/health',
+      apiUrl: 'https://myjobbuddyengine.onrender.com/parse',
+      apiPath: '/parse'
     },
     {
       id: 'ai-coach',
       name: 'AI Coach',
       description: 'Generates interview prep responses',
-      healthUrl: 'https://llmping.onrender.com/health'
+      healthUrl: 'https://llmping.onrender.com/health',
+      apiUrl: 'https://llmping.onrender.com/chat',
+      apiPath: '/chat'
     }
   ]
 };

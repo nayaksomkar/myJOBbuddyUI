@@ -81,8 +81,9 @@ function ServiceRow({ service, showLatency, pollMs }) {
   );
 }
 
-export default function ServerStatus() {
-  const { enabled, showLatency, pollMs, services } = statusStripConfig;
+export default function ServerStatus({ services: servicesProp }) {
+  const { enabled, showLatency, pollMs } = statusStripConfig;
+  const services = servicesProp ?? statusStripConfig.services;
 
   if (!enabled) {
     return null;
