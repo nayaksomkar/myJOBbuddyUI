@@ -15,6 +15,18 @@ const buildDefaults = () => {
   return defaults;
 };
 
+const buildLocalhostDefaults = () => {
+  const defaults = {};
+  for (const service of statusStripConfig.services) {
+    defaults[service.id] = {
+      apiUrl: service.localhostApiUrl,
+      apiPath: service.apiPath,
+      healthUrl: service.localhostHealthUrl
+    };
+  }
+  return defaults;
+};
+
 const loadStored = () => {
   if (typeof window === 'undefined') return null;
   try {
@@ -44,6 +56,7 @@ const mergeWithDefaults = (stored, defaults) => {
 
 export function useServiceUrls() {
   const defaults = buildDefaults();
+  const localhostDefaults = buildLocalhostDefaults();
   const [urls, setUrls] = useState(() => mergeWithDefaults(loadStored(), defaults));
 
   useEffect(() => {
@@ -74,6 +87,26 @@ export function useServiceUrls() {
     setUrls({ ...defaults });
   }, [defaults]);
 
+  const applyLocalhost = useCallback((id) => {
+    if (id) {
+      const target = localhostDefaults[id];
+      if (!target) return;
+      setUrls(prev => (prev[id] ? { ...prev, [id]: { ...target } } : prev));
+    } else {
+      setUrls({ ...localhostDefaults });
+    }
+  }, [localhostDefaults]);
+
+  const applyProduction = useCallback((id) => {
+    if (id) {
+      const target = defaults[id];
+      if (!target) return;
+      setUrls(prev => (prev[id] ? { ...prev, [id]: { ...target } } : prev));
+    } else {
+      setUrls({ ...defaults });
+    }
+  }, [defaults]);
+
   const getApiTarget = useCallback((id) => {
     const entry = urls[id];
     if (!entry) return null;
@@ -81,7 +114,17 @@ export function useServiceUrls() {
     return isDev ? entry.apiPath : entry.apiUrl;
   }, [urls]);
 
-  return { urls, updateUrl, resetUrl, resetAll, getApiTarget, defaults };
+  return {
+    urls,
+    updateUrl,
+    resetUrl,
+    resetAll,
+    applyLocalhost,
+    applyProduction,
+    getApiTarget,
+    defaults,
+    localhostDefaults
+  };
 }
 
 export default useServiceUrls;

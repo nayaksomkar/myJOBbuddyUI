@@ -15,6 +15,8 @@
  * @property {string} healthUrl - URL to ping for health checks
  * @property {string} apiUrl - Production URL used for API calls
  * @property {string} apiPath - Dev proxy path used in development
+ * @property {string} localhostApiUrl - Localhost URL used for API calls
+ * @property {string} localhostHealthUrl - Localhost URL for health checks
  */
 
 /**
@@ -144,7 +146,9 @@ export const statusStripConfig = {
       description: 'Parses and extracts resume content',
       healthUrl: 'https://myjobbuddyengine.onrender.com/health',
       apiUrl: 'https://myjobbuddyengine.onrender.com/parse',
-      apiPath: '/parse'
+      apiPath: '/parse',
+      localhostApiUrl: 'http://localhost:8000/parse',
+      localhostHealthUrl: 'http://localhost:8000/health'
     },
     {
       id: 'ai-coach',
@@ -152,7 +156,9 @@ export const statusStripConfig = {
       description: 'Generates interview prep responses',
       healthUrl: 'https://llmping.onrender.com/health',
       apiUrl: 'https://llmping.onrender.com/chat',
-      apiPath: '/chat'
+      apiPath: '/chat',
+      localhostApiUrl: 'http://localhost:8000/chat',
+      localhostHealthUrl: 'http://localhost:8000/health'
     }
   ]
 };

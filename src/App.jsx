@@ -72,7 +72,7 @@ function App() {
   const messagesEndRef = useRef(null)
   const fileInputRef = useRef(null)
   const textareaRef = useRef(null)
-  const { urls, updateUrl, resetUrl, resetAll, getApiTarget, defaults } = useServiceUrls()
+  const { urls, updateUrl, resetUrl, resetAll, applyLocalhost, applyProduction, getApiTarget, defaults, localhostDefaults } = useServiceUrls()
 
   useEffect(() => {
     localStorage.setItem('theme', theme)
@@ -588,9 +588,12 @@ Guidelines:
         onClose={() => setSettingsOpen(false)}
         urls={urls}
         defaults={defaults}
+        localhostDefaults={localhostDefaults}
         onUpdate={updateUrl}
         onReset={resetUrl}
         onResetAll={resetAll}
+        onApplyLocalhost={applyLocalhost}
+        onApplyProduction={applyProduction}
       />
     </div>
   )

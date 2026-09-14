@@ -16,7 +16,7 @@ const isValidPath = (value) => {
   return value.startsWith('/');
 };
 
-function ServiceRow({ service, current, defaults, onUpdate, onReset }) {
+function ServiceRow({ service, current, defaults, localhostDefaults, onUpdate, onReset, onUseLocalhost }) {
   const [draft, setDraft] = useState(current);
   const [touched, setTouched] = useState(false);
 
@@ -39,6 +39,10 @@ function ServiceRow({ service, current, defaults, onUpdate, onReset }) {
     draft.apiPath !== defaults.apiPath ||
     draft.healthUrl !== defaults.healthUrl;
 
+  const isLocalhost =
+    draft.apiUrl === localhostDefaults.apiUrl &&
+    draft.healthUrl === localhostDefaults.healthUrl;
+
   const handleSave = () => {
     if (!allValid) {
       setTouched(true);
@@ -58,13 +62,41 @@ function ServiceRow({ service, current, defaults, onUpdate, onReset }) {
     setTouched(false);
   };
 
+  const handleUseLocalhost = () => {
+    onUseLocalhost(service.id);
+  };
+
+  const handleUseProduction = () => {
+    setDraft({ ...defaults });
+    onReset(service.id);
+    setTouched(false);
+  };
+
   const fieldError = (valid) => (touched && !valid ? 'Invalid value' : null);
 
   return (
     <div className="settings-row">
       <div className="settings-row-header">
-        <div className="settings-row-name">{service.name}</div>
-        <div className="settings-row-desc">{service.description}</div>
+        <div className="settings-row-info">
+          <div className="settings-row-name">{service.name}</div>
+          <div className="settings-row-desc">{service.description}</div>
+        </div>
+        <div className="settings-row-toggle">
+          <button
+            className={`settings-toggle-btn ${isLocalhost ? 'active' : ''}`}
+            onClick={handleUseLocalhost}
+            title="Point this service at localhost:8000"
+          >
+            Local
+          </button>
+          <button
+            className={`settings-toggle-btn ${!isLocalhost ? 'active' : ''}`}
+            onClick={handleUseProduction}
+            title={`Restore the production ${defaults.apiUrl}`}
+          >
+            Production
+          </button>
+        </div>
       </div>
 
       <label className="settings-field">
@@ -130,7 +162,18 @@ function ServiceRow({ service, current, defaults, onUpdate, onReset }) {
   );
 }
 
-export default function ServiceUrlSettings({ open, onClose, urls, defaults, onUpdate, onReset, onResetAll }) {
+export default function ServiceUrlSettings({
+  open,
+  onClose,
+  urls,
+  defaults,
+  localhostDefaults,
+  onUpdate,
+  onReset,
+  onResetAll,
+  onApplyLocalhost,
+  onApplyProduction
+}) {
   useEffect(() => {
     if (!open) return;
     const handleKey = (e) => {
@@ -139,6 +182,18 @@ export default function ServiceUrlSettings({ open, onClose, urls, defaults, onUp
     window.addEventListener('keydown', handleKey);
     return () => window.removeEventListener('keydown', handleKey);
   }, [open, onClose]);
+
+  const allLocalhost = statusStripConfig.services.every((service) => {
+    const entry = urls[service.id];
+    const lh = localhostDefaults[service.id];
+    return entry && lh && entry.apiUrl === lh.apiUrl && entry.healthUrl === lh.healthUrl;
+  });
+
+  const allProduction = statusStripConfig.services.every((service) => {
+    const entry = urls[service.id];
+    const prod = defaults[service.id];
+    return entry && prod && entry.apiUrl === prod.apiUrl && entry.healthUrl === prod.healthUrl;
+  });
 
   if (!open) return null;
 
@@ -154,7 +209,7 @@ export default function ServiceUrlSettings({ open, onClose, urls, defaults, onUp
           <div>
             <div className="settings-modal-title">Service URLs</div>
             <div className="settings-modal-subtitle">
-              Override backend endpoints. Edits are saved automatically per service.
+              Override backend endpoints. Toggle Local / Production, or edit fields and Save.
             </div>
           </div>
           <button className="settings-close" onClick={onClose} aria-label="Close settings">
@@ -172,16 +227,34 @@ export default function ServiceUrlSettings({ open, onClose, urls, defaults, onUp
               service={service}
               current={urls[service.id]}
               defaults={defaults[service.id]}
+              localhostDefaults={localhostDefaults[service.id]}
               onUpdate={onUpdate}
               onReset={onReset}
+              onUseLocalhost={onApplyLocalhost}
             />
           ))}
         </div>
 
         <div className="settings-modal-footer">
           <button className="settings-btn settings-btn-ghost" onClick={onResetAll}>
-            Reset all to defaults
+            Reset all
           </button>
+          <div className="settings-footer-toggle">
+            <button
+              className={`settings-toggle-btn ${allLocalhost ? 'active' : ''}`}
+              onClick={() => onApplyLocalhost()}
+              title="Point every service at localhost:8000"
+            >
+              All Local
+            </button>
+            <button
+              className={`settings-toggle-btn ${allProduction ? 'active' : ''}`}
+              onClick={() => onApplyProduction()}
+              title="Restore every service to its production Render URL"
+            >
+              All Production
+            </button>
+          </div>
         </div>
       </div>
     </div>
